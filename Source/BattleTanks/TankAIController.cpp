@@ -39,8 +39,12 @@ ATank* ATankAIController::GetPlayerTank() const
 	if (World != nullptr)
 	{
 		APlayerController* PlayerController = World->GetFirstPlayerController();
-		if (PlayerController != nullptr) 
-			PlayerTank = Cast<ATank>(PlayerController->GetPawn());
+		if (PlayerController != nullptr)
+		{
+			APawn* PlayerPawn = PlayerController->GetPawn();
+			if(PlayerPawn != nullptr)
+				PlayerTank = Cast<ATank>(PlayerPawn);
+		}
 	}
 
 	return PlayerTank;
