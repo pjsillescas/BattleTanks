@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "Runtime/Engine/Classes/Components/StaticMeshComponent.h"
 #include "Tank.generated.h"
 
 UCLASS()
@@ -19,6 +20,9 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	//UPROPERTY(VisibleAnywhere)
+	class UTankAimingComponent* TankAimingComponent;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -27,5 +31,8 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	void AimAt(FVector HitLocation);
+
+	UFUNCTION(BlueprintCallable,Category = "Setup")
+	void SetBarrelReference(UStaticMeshComponent* NewBarrel);
 
 };

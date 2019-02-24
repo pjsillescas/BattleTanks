@@ -63,6 +63,6 @@ void ATankAIController::Tick(float DeltaTime)
 	// Aim at player's location
 	FVector HitLocation = PlayerTank->GetActorLocation();
 	ControlledTank->AimAt(HitLocation);
-
+	
 	// Fire if ready
 }
