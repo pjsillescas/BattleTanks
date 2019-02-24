@@ -23,6 +23,9 @@ protected:
 	//UPROPERTY(VisibleAnywhere)
 	class UTankAimingComponent* TankAimingComponent;
 
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "Firing")
+	float LaunchSpeed;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

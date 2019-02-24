@@ -13,6 +13,8 @@ ATank::ATank()
 	// No need to protect pointers as added at construction
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("TankAimingComponent"));
 
+	LaunchSpeed = 100000; // TODO Find a sensible default
+
 }
 
 void ATank::SetBarrelReference(UStaticMeshComponent* NewBarrel)
@@ -43,5 +45,5 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void ATank::AimAt(FVector HitLocation)
 {
-	TankAimingComponent->AimAt(HitLocation);
+	TankAimingComponent->AimAt(HitLocation,LaunchSpeed);
 }
