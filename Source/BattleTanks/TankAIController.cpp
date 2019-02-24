@@ -49,3 +49,20 @@ ATank* ATankAIController::GetPlayerTank() const
 
 	return PlayerTank;
 }
+
+void ATankAIController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	ATank* ControlledTank = GetControlledTank();
+	ATank* PlayerTank = GetPlayerTank();
+
+	if (ControlledTank == nullptr) return;
+	if (PlayerTank == nullptr) return;
+
+	// Aim at player's location
+	FVector HitLocation = PlayerTank->GetActorLocation();
+	ControlledTank->AimAt(HitLocation);
+
+	// Fire if ready
+}

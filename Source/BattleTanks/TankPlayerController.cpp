@@ -36,9 +36,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 
 	if (GetSightRayHitLocation(HitLocation))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Hit location: %s"), *HitLocation.ToString());
-
-		// TODO: Tell controlled tank to aim at this point
+		ControlledTank->AimAt(HitLocation);
 	}
 
 }
@@ -60,20 +58,6 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 	{
 		// Raycast for a maximum distance
 		isHit = GetLookVectorHitLocation(LookDirection,OUT HitLocation);
-
-		/*
-		FVector LineTraceEnd = CameraWorldLocation + MaxSightDistance * CameraWorldDirection;
-
-		UE_LOG(LogTemp, Warning, TEXT("Line (%s) %s => %s"), *(CameraWorldDirection.ToString()), *(CameraWorldLocation.ToString()), *(LineTraceEnd.ToString()));
-
-		DrawDebugLine(GetWorld(), CameraWorldLocation, LineTraceEnd, FColor::Red, true, 2, 0, 2);
-
-		FCollisionQueryParams QueryParams(FName(TEXT("")), false, GetOwner());
-		FHitResult Hit;
-		GetWorld()->LineTraceSingleByObjectType(OUT Hit, CameraWorldLocation, LineTraceEnd, FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody), QueryParams);
-		isHit = !Hit.ImpactPoint.IsZero();
-		HitLocation = (isHit) ? Hit.ImpactPoint : FVector::ZeroVector;
-		*/
 	}
 
 
@@ -91,8 +75,6 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection,FVect
 	ATank* Tank = GetControlledTank();
 	FVector StartLocation = PlayerCameraManager->GetCameraLocation();
 	FVector EndLocation = StartLocation + MaxSightDistance * LookDirection;
-	
-	//DrawDebugLine(GetWorld(), StartLocation, EndLocation, FColor::Red, true, 1, 0, 2);
 	
 	FHitResult Hit;
 	bool isHit = GetWorld()->LineTraceSingleByChannel(OUT Hit, StartLocation, EndLocation, ECollisionChannel::ECC_Visibility);
