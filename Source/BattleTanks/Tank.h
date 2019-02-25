@@ -36,6 +36,6 @@ public:
 	void AimAt(FVector HitLocation);
 
 	UFUNCTION(BlueprintCallable,Category = "Setup")
-	void SetBarrelReference(UStaticMeshComponent* NewBarrel);
+	void SetBarrelReference(class UTankBarrel* NewBarrel);
 
 };

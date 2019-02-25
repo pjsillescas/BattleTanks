@@ -22,10 +22,10 @@ public:
 	
 	void SetTurretReference(UStaticMeshComponent* NewTurret);
 
-	void SetBarrelReference(UStaticMeshComponent* NewBarrel);
+	void SetBarrelReference(class UTankBarrel* NewBarrel);
 
 	void MoveBarrelTowards(const FVector& AimDirection);
 private:
-	class UStaticMeshComponent* Barrel;
+	class UTankBarrel* Barrel;
 	class UStaticMeshComponent* Turret;
 };
