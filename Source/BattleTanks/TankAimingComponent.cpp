@@ -4,6 +4,7 @@
 #include "Runtime/Engine/Classes/GameFramework/Actor.h"
 #include "Runtime/Engine/Classes/Components/StaticMeshComponent.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -22,23 +23,9 @@ void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* NewBarrel)
 	Barrel = NewBarrel;
 }
 
-
-// Called when the game starts
-void UTankAimingComponent::BeginPlay()
+void UTankAimingComponent::SetTurretReference(UStaticMeshComponent* NewTurret)
 {
-	Super::BeginPlay();
-
-	// ...
-	
-}
-
-
-// Called every frame
-void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
+	Turret = NewTurret;
 }
 
 void UTankAimingComponent::AimAt(FVector WorldSpaceAim,float LaunchSpeed)
@@ -49,13 +36,11 @@ void UTankAimingComponent::AimAt(FVector WorldSpaceAim,float LaunchSpeed)
 	
 	FVector OutLaunchVelocity(0);
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
-	if (UGameplayStatics::SuggestProjectileVelocity(this, OUT OutLaunchVelocity, StartLocation, WorldSpaceAim, LaunchSpeed, false, 0, 0, ESuggestProjVelocityTraceOption::DoNotTrace))
+	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(this, OUT OutLaunchVelocity, StartLocation, WorldSpaceAim, LaunchSpeed, ESuggestProjVelocityTraceOption::DoNotTrace);
+	if(bHaveAimSolution)
 	{
-		auto TankName = Owner->GetName();
-		// Calculate the OutLaunchVelocity
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
-		//UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s from %s"), *(Owner->GetName()), *(WorldSpaceAim.ToString()),*(BarrelLocation.ToString()));
-		UE_LOG(LogTemp, Warning, TEXT("%s Aiming at %s"), *TankName,*AimDirection.ToString());
+		MoveBarrelTowards(AimDirection);
 	}
 	else
 	{
@@ -63,4 +48,23 @@ void UTankAimingComponent::AimAt(FVector WorldSpaceAim,float LaunchSpeed)
 		;
 	}
 	
+}
+
+void UTankAimingComponent::MoveBarrelTowards(const FVector& AimDirection)
+{
+	// Work-out difference between current barrel rotation and AimmDirection
+	FRotator BarrelRotation = Barrel->GetForwardVector().Rotation();
+	FRotator AimAsRotator = AimDirection.Rotation();
+	FRotator DeltaRotator = AimAsRotator - BarrelRotation;
+	// Move the barrel right amount this frame
+
+	// Given max elevation speed and the frame time
+
+	// Get Roll - Pitch - Yaw Angles
+
+	// Build new rotation
+
+	// Set Roll - Pitch to the turret
+
+	// Set Yaw to the barrel
 }
