@@ -15,8 +15,9 @@ void UTankTurret::Rotate(float RelativeSpeed)
 	auto ClampedAzimuth = FMath::Clamp<float>(RawNewAzimuth, MinAzimuth, MaxAzimuth);
 
 	SetRelativeRotation(FRotator(0, ClampedAzimuth, 0));
-
+	/*
 	auto Time = GetWorld()->GetTimeSeconds();
 	UE_LOG(LogTemp, Warning, TEXT("%f: Move to azimuth %.f"), Time, ClampedAzimuth);
+	*/
 
 }

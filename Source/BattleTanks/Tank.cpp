@@ -2,6 +2,8 @@
 
 #include "Tank.h"
 
+#include "Runtime/Engine/Classes/Engine/World.h"
+
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
 #include "TankTurret.h"
@@ -46,4 +48,10 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void ATank::AimAt(FVector HitLocation)
 {
 	TankAimingComponent->AimAt(HitLocation,LaunchSpeed);
+}
+
+void ATank::Fire()
+{
+	auto Time = GetWorld()->GetTimeSeconds();
+	UE_LOG(LogTemp,Warning,TEXT("%f: Fire!!"),Time);
 }
