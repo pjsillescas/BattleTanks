@@ -34,4 +34,7 @@ public:
 	UFUNCTION(BlueprintCallable,Category = "Setup")
 	void SetBarrelReference(class UTankBarrel* NewBarrel);
 
+	UFUNCTION(BlueprintCallable,Category = "Setup")
+	void SetTurretReference(class UTankTurret* NewTurret);
+
 };

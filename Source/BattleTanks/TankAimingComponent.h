@@ -20,12 +20,12 @@ public:
 public:	
 	void AimAt(FVector WorldSpaceAim,float LaunchSpeed);
 	
-	void SetTurretReference(UStaticMeshComponent* NewTurret);
-
 	void SetBarrelReference(class UTankBarrel* NewBarrel);
+	void SetTurretReference(class UTankTurret* NewTurret);
 
 	void MoveBarrelTowards(const FVector& AimDirection);
+	void MoveTurretTowards(const FVector& AimDirection);
 private:
 	class UTankBarrel* Barrel;
-	class UStaticMeshComponent* Turret;
+	class UTankTurret* Turret;
 };
