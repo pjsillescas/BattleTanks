@@ -36,13 +36,11 @@ void UTankAimingComponent::AimAt(FVector WorldSpaceAim,float LaunchSpeed)
 	
 	FVector OutLaunchVelocity(0);
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
-	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(this, OUT OutLaunchVelocity, StartLocation, WorldSpaceAim, LaunchSpeed);
+	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(this, OUT OutLaunchVelocity, StartLocation, WorldSpaceAim, LaunchSpeed,false,0,0,ESuggestProjVelocityTraceOption::DoNotTrace);
 	if(bHaveAimSolution)
 	{
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
-		auto Time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("%f: Aim solution found!!"), Time);
 	}
 	else
 	{
@@ -57,13 +55,5 @@ void UTankAimingComponent::MoveBarrelTowards(const FVector& AimDirection)
 	FRotator BarrelRotation = Barrel->GetForwardVector().Rotation();
 	FRotator AimAsRotator = AimDirection.Rotation();
 	FRotator DeltaRotator = AimAsRotator - BarrelRotation;
-	Barrel->Elevate(DeltaRotator.Yaw);
-
-	// Get Roll - Pitch - Yaw Angles
-
-	// Build new rotation
-
-	// Set Roll - Pitch to the turret
-
-	// Set Yaw to the barrel
+	Barrel->Elevate(DeltaRotator.Pitch);
 }
