@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "Runtime/Engine/Classes/Components/StaticMeshComponent.h"
 #include "Tank.generated.h"
 
 UCLASS()
