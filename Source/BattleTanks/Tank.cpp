@@ -15,7 +15,7 @@ ATank::ATank()
 	// No need to protect pointers as added at construction
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("TankAimingComponent"));
 
-	LaunchSpeed = 100000; // TODO Find a sensible default
+	LaunchSpeed = 4000; // TODO Find a sensible default
 
 }
 
