@@ -61,10 +61,10 @@ void ATank::Fire()
 
 	// Spawn a projectile at the socket location on the barrel
 	FTransform Transform = Barrel->GetSocketTransform(FName("Projectile"));
-	FVector Location = Transform.GetLocation() + Transform.GetRotation().GetForwardVector() * 400;
 	FRotator Rotation = Transform.GetRotation().Rotator();
+	FVector Location = Transform.GetLocation() + Transform.GetRotation().GetForwardVector() * 500;
 	FActorSpawnParameters SpawnParameters;
-	SpawnParameters.Owner = this;
-	SpawnParameters.ObjectFlags = EObjectFlags::RF_Public;
-	GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Location, Rotation, SpawnParameters);
+	AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Location, Rotation, SpawnParameters);
+
+	Projectile->LaunchProjectile(LaunchSpeed);
 }
