@@ -20,6 +20,10 @@ ATank::ATank()
 
 	LaunchSpeed = 4000; // TODO Find a sensible default
 	Barrel = nullptr;
+
+	ReloadTimeInSeconds = 3;
+	LastFireTime = 0;
+
 }
 
 void ATank::SetBarrelReference(UTankBarrel* NewBarrel)
@@ -54,17 +58,22 @@ void ATank::AimAt(FVector HitLocation)
 
 void ATank::Fire()
 {
-	auto Time = GetWorld()->GetTimeSeconds();
-	UE_LOG(LogTemp,Warning,TEXT("%f: Fire!!"),Time);
+	bool IsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
 
-	if (Barrel == nullptr) return;
+	if (Barrel != nullptr && IsReloaded)
+	{
+		auto Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("%f: Fire!!"), Time);
 
-	// Spawn a projectile at the socket location on the barrel
-	FTransform Transform = Barrel->GetSocketTransform(FName("Projectile"));
-	FRotator Rotation = Transform.GetRotation().Rotator();
-	FVector Location = Transform.GetLocation() + Transform.GetRotation().GetForwardVector() * 500;
-	FActorSpawnParameters SpawnParameters;
-	AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Location, Rotation, SpawnParameters);
+		// Spawn a projectile at the socket location on the barrel
+		FTransform Transform = Barrel->GetSocketTransform(FName("Projectile"));
+		FRotator Rotation = Transform.GetRotation().Rotator();
+		FVector Location = Transform.GetLocation() + Transform.GetRotation().GetForwardVector() * 500;
+		FActorSpawnParameters SpawnParameters;
+		AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Location, Rotation, SpawnParameters);
 
-	Projectile->LaunchProjectile(LaunchSpeed);
+		Projectile->LaunchProjectile(LaunchSpeed);
+
+		LastFireTime = FPlatformTime::Seconds();
+	}
 }

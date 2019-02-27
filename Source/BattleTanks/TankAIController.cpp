@@ -10,21 +10,6 @@
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
-
-	ATank* Tank = GetControlledTank();
-
-	if(Tank != nullptr)
-	{ 
-		UE_LOG(LogTemp, Warning, TEXT("Possesed tank: %s"), *(Tank->GetName()));
-	}
-
-	ATank* PlayerTank = GetPlayerTank();
-
-	if (PlayerTank != nullptr)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Player tank found: %s"), *(PlayerTank->GetName()));
-	}
-
 }
 
 ATank* ATankAIController::GetControlledTank() const
@@ -54,15 +39,18 @@ void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	ATank* ControlledTank = GetControlledTank();
+	ATank* ControlledTank = Cast<ATank>(GetPawn());
 	ATank* PlayerTank = GetPlayerTank();
 
 	if (ControlledTank == nullptr) return;
 	if (PlayerTank == nullptr) return;
+
+	// TODO Move towards the player
 
 	// Aim at player's location
 	FVector HitLocation = PlayerTank->GetActorLocation();
 	ControlledTank->AimAt(HitLocation);
 	
 	// Fire if ready
+	ControlledTank->Fire();
 }

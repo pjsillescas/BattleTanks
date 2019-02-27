@@ -28,6 +28,10 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Setup")
 	TSubclassOf<class AProjectile> ProjectileBlueprint;
 
+	UPROPERTY(EditAnywhere, Category = "Setup")
+	float ReloadTimeInSeconds;
+	double LastFireTime;
+
 private:
 	class UTankBarrel* Barrel = nullptr;
 
