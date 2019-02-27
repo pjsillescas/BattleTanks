@@ -25,6 +25,12 @@ protected:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "Firing")
 	float LaunchSpeed;
 
+	UPROPERTY(EditAnywhere, Category = "Setup")
+	TSubclassOf<class AProjectile> ProjectileBlueprint;
+
+private:
+	class UTankBarrel* Barrel = nullptr;
+
 public:	
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
