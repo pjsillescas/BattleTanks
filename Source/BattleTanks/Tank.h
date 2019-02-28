@@ -22,6 +22,9 @@ protected:
 	//UPROPERTY(VisibleAnywhere)
 	class UTankAimingComponent* TankAimingComponent;
 
+	UPROPERTY(BlueprintReadOnly)
+	class UTankMovementComponent* TankMovementComponent;
+
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "Firing")
 	float LaunchSpeed;
 
