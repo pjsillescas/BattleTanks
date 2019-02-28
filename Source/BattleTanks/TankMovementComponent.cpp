@@ -7,6 +7,8 @@
 
 void UTankMovementComponent::IntendMoveForward(float Throw)
 {
+	if (LeftTrack == nullptr || RightTrack == nullptr) return;
+	
 	Throw = FMath::Clamp<float>(Throw, -1, 1);
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
@@ -18,6 +20,8 @@ void UTankMovementComponent::IntendTurnRight(float Throw)
 	auto Time = GetWorld()->GetTimeSeconds();
 	UE_LOG(LogTemp, Warning, TEXT("%f: %s Move right (%f)."), Time, *Name, Throw);
 	
+	if (LeftTrack == nullptr || RightTrack == nullptr) return;
+	
 	//Throw = FMath::Clamp<float>(Throw, -1, 1);
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(-Throw);
@@ -25,8 +29,6 @@ void UTankMovementComponent::IntendTurnRight(float Throw)
 
 void UTankMovementComponent::Initialize(UTankTrack* NewLeftTrack, UTankTrack* NewRightTrack)
 {
-	if (NewLeftTrack == nullptr || NewRightTrack == nullptr) return;
-
 	LeftTrack = NewLeftTrack;
 	RightTrack = NewRightTrack;
 }
