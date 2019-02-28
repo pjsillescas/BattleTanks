@@ -46,6 +46,7 @@ void ATankAIController::Tick(float DeltaTime)
 	if (PlayerTank == nullptr) return;
 
 	// TODO Move towards the player
+	MoveToActor(PlayerTank, AcceptanceRadius);
 
 	// Aim at player's location
 	FVector HitLocation = PlayerTank->GetActorLocation();

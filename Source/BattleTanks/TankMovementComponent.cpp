@@ -16,10 +16,11 @@ void UTankMovementComponent::IntendMoveForward(float Throw)
 
 void UTankMovementComponent::IntendTurnRight(float Throw)
 {
+	/*
 	auto Name = GetOwner()->GetName();
 	auto Time = GetWorld()->GetTimeSeconds();
 	UE_LOG(LogTemp, Warning, TEXT("%f: %s Move right (%f)."), Time, *Name, Throw);
-	
+	*/
 	if (LeftTrack == nullptr || RightTrack == nullptr) return;
 	
 	//Throw = FMath::Clamp<float>(Throw, -1, 1);
@@ -31,4 +32,11 @@ void UTankMovementComponent::Initialize(UTankTrack* NewLeftTrack, UTankTrack* Ne
 {
 	LeftTrack = NewLeftTrack;
 	RightTrack = NewRightTrack;
+}
+
+void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
+{
+	auto Name = GetOwner()->GetName();
+	auto Time = GetWorld()->GetTimeSeconds();
+	UE_LOG(LogTemp, Warning, TEXT("%f: %s Direct move to %s."), Time, *Name, *MoveVelocity.ToString());
 }

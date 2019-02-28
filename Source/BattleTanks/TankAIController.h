@@ -17,7 +17,9 @@ class BATTLETANKS_API ATankAIController : public AAIController
 public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
-
+protected:
+	UPROPERTY(EditDefaultsOnly,Category = "Movement")
+	float AcceptanceRadius = 3000;
 private:
 	class ATank* GetControlledTank() const;
 
