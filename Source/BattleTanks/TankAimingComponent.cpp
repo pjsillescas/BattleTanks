@@ -15,6 +15,7 @@ UTankAimingComponent::UTankAimingComponent()
 	PrimaryComponentTick.bCanEverTick = false;
 
 	Barrel = nullptr;
+	FiringStatus = EFiringStatus::Reloading;
 
 	// ...
 }
