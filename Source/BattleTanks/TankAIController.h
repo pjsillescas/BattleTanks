@@ -19,7 +19,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 protected:
 	UPROPERTY(EditDefaultsOnly,Category = "Movement")
-	float AcceptanceRadius = 3000;
+	float AcceptanceRadius = 30;
 private:
 	class ATank* GetControlledTank() const;
 

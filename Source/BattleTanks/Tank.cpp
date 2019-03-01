@@ -64,8 +64,10 @@ void ATank::Fire()
 
 	if (Barrel != nullptr && IsReloaded)
 	{
+		/*
 		auto Time = GetWorld()->GetTimeSeconds();
 		UE_LOG(LogTemp, Warning, TEXT("%f: Fire!!"), Time);
+		*/
 
 		// Spawn a projectile at the socket location on the barrel
 		FTransform Transform = Barrel->GetSocketTransform(FName("Projectile"));
