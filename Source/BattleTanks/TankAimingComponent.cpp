@@ -6,6 +6,7 @@
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "TankBarrel.h"
 #include "TankTurret.h"
+#include "Projectile.h"
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -28,6 +29,12 @@ void UTankAimingComponent::SetBarrelReference(UTankBarrel* NewBarrel)
 void UTankAimingComponent::SetTurretReference(UTankTurret* NewTurret)
 {
 	Turret = NewTurret;
+}
+
+void UTankAimingComponent::Initialize(UTankBarrel* NewBarrel, UTankTurret* NewTurret)
+{
+	SetBarrelReference(NewBarrel);
+	SetTurretReference(NewTurret);
 }
 
 void UTankAimingComponent::AimAt(FVector WorldSpaceAim,float LaunchSpeed)
@@ -65,5 +72,17 @@ void UTankAimingComponent::MoveTurretTowards(const FVector& AimDirection)
 	FRotator AimAsRotator = AimDirection.Rotation();
 	FRotator DeltaRotator = AimAsRotator - BarrelRotation;
 	Turret->Rotate(DeltaRotator.Yaw);
+
+}
+
+void UTankAimingComponent::Fire(float LaunchSpeed)
+{
+	FTransform Transform = Barrel->GetSocketTransform(FName("Projectile"));
+	FRotator Rotation = Transform.GetRotation().Rotator();
+	FVector Location = Transform.GetLocation() + Transform.GetRotation().GetForwardVector() * 500;
+	FActorSpawnParameters SpawnParameters;
+	AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Location, Rotation, SpawnParameters);
+
+	Projectile->LaunchProjectile(LaunchSpeed);
 
 }

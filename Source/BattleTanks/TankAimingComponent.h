@@ -28,11 +28,20 @@ public:
 	void SetBarrelReference(class UTankBarrel* NewBarrel);
 	void SetTurretReference(class UTankTurret* NewTurret);
 
+	UFUNCTION(BlueprintCallable,Category = "Setup")
+	void Initialize(class UTankBarrel* NewBarrel, class UTankTurret* NewTurret);
+
 	void MoveBarrelTowards(const FVector& AimDirection);
 	void MoveTurretTowards(const FVector& AimDirection);
 	
 	UPROPERTY(BlueprintReadOnly,Category = "State")
 	EFiringStatus FiringStatus;
+
+	UPROPERTY(EditAnywhere, Category = "Setup")
+	TSubclassOf<class AProjectile> ProjectileBlueprint;
+
+	UFUNCTION(BlueprintCallable,Category = "Firing")
+	void Fire(float LaunchSpeed);
 private:
 	class UTankBarrel* Barrel;
 	class UTankTurret* Turret;

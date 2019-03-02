@@ -21,22 +21,10 @@ ATank::ATank()
 	TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("TankMovementComponent"));
 
 	LaunchSpeed = 4000; // TODO Find a sensible default
-	Barrel = nullptr;
 
 	ReloadTimeInSeconds = 3;
 	LastFireTime = 0;
 
-}
-
-void ATank::SetBarrelReference(UTankBarrel* NewBarrel)
-{
-	TankAimingComponent->SetBarrelReference(NewBarrel);
-	Barrel = NewBarrel;
-}
-
-void ATank::SetTurretReference(UTankTurret* NewTurret)
-{
-	TankAimingComponent->SetTurretReference(NewTurret);
 }
 
 // Called when the game starts or when spawned
@@ -55,6 +43,7 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void ATank::AimAt(FVector HitLocation)
 {
+	if (TankAimingComponent == nullptr) return;
 	TankAimingComponent->AimAt(HitLocation,LaunchSpeed);
 }
 
@@ -62,7 +51,7 @@ void ATank::Fire()
 {
 	bool IsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
 
-	if (Barrel != nullptr && IsReloaded)
+	if (IsReloaded && TankAimingComponent != nullptr)
 	{
 		/*
 		auto Time = GetWorld()->GetTimeSeconds();
@@ -70,13 +59,7 @@ void ATank::Fire()
 		*/
 
 		// Spawn a projectile at the socket location on the barrel
-		FTransform Transform = Barrel->GetSocketTransform(FName("Projectile"));
-		FRotator Rotation = Transform.GetRotation().Rotator();
-		FVector Location = Transform.GetLocation() + Transform.GetRotation().GetForwardVector() * 500;
-		FActorSpawnParameters SpawnParameters;
-		AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Location, Rotation, SpawnParameters);
-
-		Projectile->LaunchProjectile(LaunchSpeed);
+		TankAimingComponent->Fire(LaunchSpeed);
 
 		LastFireTime = FPlatformTime::Seconds();
 	}

@@ -19,36 +19,24 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	class UTankAimingComponent* TankAimingComponent;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	class UTankMovementComponent* TankMovementComponent;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "Firing")
 	float LaunchSpeed;
 
-	UPROPERTY(EditAnywhere, Category = "Setup")
-	TSubclassOf<class AProjectile> ProjectileBlueprint;
-
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	float ReloadTimeInSeconds;
 	double LastFireTime;
-
-private:
-	class UTankBarrel* Barrel = nullptr;
 
 public:	
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	void AimAt(FVector HitLocation);
-
-	UFUNCTION(BlueprintCallable,Category = "Setup")
-	void SetBarrelReference(class UTankBarrel* NewBarrel);
-
-	UFUNCTION(BlueprintCallable,Category = "Setup")
-	void SetTurretReference(class UTankTurret* NewTurret);
 
 	UFUNCTION(BlueprintCallable,Category = "Actions")
 	void Fire();
