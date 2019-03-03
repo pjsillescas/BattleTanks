@@ -18,27 +18,7 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
-	class UTankAimingComponent* TankAimingComponent;
-
-	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
-	class UTankMovementComponent* TankMovementComponent;
-
-	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "Firing")
-	float LaunchSpeed;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-	float ReloadTimeInSeconds;
-	double LastFireTime;
-
 public:	
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	void AimAt(FVector HitLocation);
-
-	UFUNCTION(BlueprintCallable,Category = "Actions")
-	void Fire();
-
 };

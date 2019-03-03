@@ -30,11 +30,9 @@ protected:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	float CrossHairYLocation = 1. / 3;
 	
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	class ATank* GetControlledTank() const;
-
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 	void FoundAimingComponent(class UTankAimingComponent* AimingCompRef);
+
 public:
 
 	virtual void BeginPlay() override;

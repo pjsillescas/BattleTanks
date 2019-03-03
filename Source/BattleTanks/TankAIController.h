@@ -20,9 +20,8 @@ public:
 protected:
 	UPROPERTY(EditDefaultsOnly,Category = "Movement")
 	float AcceptanceRadius = 30;
-private:
-	class ATank* GetControlledTank() const;
 
+private:
 	class ATank* GetPlayerTank() const;
 
 };

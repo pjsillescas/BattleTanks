@@ -22,8 +22,12 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
-public:	
-	void AimAt(FVector WorldSpaceAim,float LaunchSpeed);
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Firing")
+	float LaunchSpeed;
+
+
+	void AimAt(FVector WorldSpaceAim);
 	
 	void SetBarrelReference(class UTankBarrel* NewBarrel);
 	void SetTurretReference(class UTankTurret* NewTurret);
@@ -41,7 +45,12 @@ public:
 	TSubclassOf<class AProjectile> ProjectileBlueprint;
 
 	UFUNCTION(BlueprintCallable,Category = "Firing")
-	void Fire(float LaunchSpeed);
+	void Fire();
+
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	float ReloadTimeInSeconds;
+	double LastFireTime;
+
 private:
 	class UTankBarrel* Barrel;
 	class UTankTurret* Turret;

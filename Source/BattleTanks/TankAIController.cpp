@@ -5,16 +5,13 @@
 #include "Runtime/Engine/Classes/GameFramework/Actor.h"
 #include "Runtime/Engine/Classes/Engine/World.h"
 #include "Runtime/Engine/Classes/GameFramework/PlayerController.h"
+
+#include "TankAimingComponent.h"
 #include "Tank.h"
 
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
-}
-
-ATank* ATankAIController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
 }
 
 ATank* ATankAIController::GetPlayerTank() const
@@ -42,8 +39,7 @@ void ATankAIController::Tick(float DeltaTime)
 	ATank* ControlledTank = Cast<ATank>(GetPawn());
 	ATank* PlayerTank = GetPlayerTank();
 
-	if (!ensure(ControlledTank)) return;
-	if (!ensure(PlayerTank)) return;
+	if (!ensure(ControlledTank && PlayerTank)) return;
 
 	// TODO Move towards the player
 	UE_LOG(LogTemp,Warning,TEXT("To player %f"),AcceptanceRadius);
@@ -51,8 +47,9 @@ void ATankAIController::Tick(float DeltaTime)
 
 	// Aim at player's location
 	FVector HitLocation = PlayerTank->GetActorLocation();
-	ControlledTank->AimAt(HitLocation);
+	auto AimingComponent = ControlledTank->FindComponentByClass<UTankAimingComponent>();
+	AimingComponent->AimAt(HitLocation);
 	
 	// Fire if ready
-	ControlledTank->Fire();
+	AimingComponent->Fire();
 }
