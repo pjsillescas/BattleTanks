@@ -84,7 +84,7 @@ void UTankAimingComponent::Fire()
 {
 	bool IsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
 
-	if (IsReloaded)
+	if (IsReloaded && ensure(ProjectileBlueprint))
 	{
 		/*
 		auto Time = GetWorld()->GetTimeSeconds();
