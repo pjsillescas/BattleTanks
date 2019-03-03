@@ -21,13 +21,13 @@ ATank* ATankAIController::GetPlayerTank() const
 {
 	ATank* PlayerTank = nullptr;
 	UWorld* World = GetWorld();
-	if (World != nullptr)
+	if (ensure(World))
 	{
 		APlayerController* PlayerController = World->GetFirstPlayerController();
-		if (PlayerController != nullptr)
+		if (ensure(PlayerController))
 		{
 			APawn* PlayerPawn = PlayerController->GetPawn();
-			if(PlayerPawn != nullptr)
+			if(ensure(PlayerPawn))
 				PlayerTank = Cast<ATank>(PlayerPawn);
 		}
 	}
@@ -42,8 +42,8 @@ void ATankAIController::Tick(float DeltaTime)
 	ATank* ControlledTank = Cast<ATank>(GetPawn());
 	ATank* PlayerTank = GetPlayerTank();
 
-	if (ControlledTank == nullptr) return;
-	if (PlayerTank == nullptr) return;
+	if (!ensure(ControlledTank)) return;
+	if (!ensure(PlayerTank)) return;
 
 	// TODO Move towards the player
 	UE_LOG(LogTemp,Warning,TEXT("To player %f"),AcceptanceRadius);

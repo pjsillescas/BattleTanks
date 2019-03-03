@@ -40,9 +40,9 @@ void UTankAimingComponent::Initialize(UTankBarrel* NewBarrel, UTankTurret* NewTu
 void UTankAimingComponent::AimAt(FVector WorldSpaceAim,float LaunchSpeed)
 {
 	AActor* Owner = GetOwner();
-	if (Owner == nullptr) return;
-	if (Barrel == nullptr) return;
-	if (Turret == nullptr) return;
+	if (!ensure(Owner)) return;
+	if (!ensure(Barrel)) return;
+	if (!ensure(Turret)) return;
 
 	FVector OutLaunchVelocity(0);
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));

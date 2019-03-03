@@ -43,7 +43,7 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void ATank::AimAt(FVector HitLocation)
 {
-	if (TankAimingComponent == nullptr) return;
+	if (!ensure(TankAimingComponent)) return;
 	TankAimingComponent->AimAt(HitLocation,LaunchSpeed);
 }
 
@@ -51,7 +51,7 @@ void ATank::Fire()
 {
 	bool IsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
 
-	if (IsReloaded && TankAimingComponent != nullptr)
+	if (IsReloaded && ensure(TankAimingComponent))
 	{
 		/*
 		auto Time = GetWorld()->GetTimeSeconds();
