@@ -54,7 +54,7 @@ void UTankAimingComponent::AimAt(FVector WorldSpaceAim)
 	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(this, OUT OutLaunchVelocity, StartLocation, WorldSpaceAim, LaunchSpeed,false,0,0,ESuggestProjVelocityTraceOption::DoNotTrace);
 	if(bHaveAimSolution)
 	{
-		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+		AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
 		MoveTurretTowards(AimDirection);
 	}
@@ -109,12 +109,19 @@ void UTankAimingComponent::Fire()
 	}
 }
 
+bool UTankAimingComponent::IsBarrelMoving()
+{
+	if (!ensure(Barrel)) return false;
+	FVector BarrelForwardVector = Barrel->GetForwardVector();
+	return !(BarrelForwardVector.Equals(AimDirection,0.03));
+}
+
 void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
-	UE_LOG(LogTemp,Warning,TEXT("Tick Aiming Component"));
-
-	if ((FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds)
+	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds)
 		FiringStatus = EFiringStatus::Reloading;
-	else
+	else if (IsBarrelMoving())
 		FiringStatus = EFiringStatus::Aiming;
+	else
+		FiringStatus = EFiringStatus::Locked;
 }

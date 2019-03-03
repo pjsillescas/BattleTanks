@@ -57,4 +57,7 @@ public:
 private:
 	class UTankBarrel* Barrel;
 	class UTankTurret* Turret;
+	
+	FVector AimDirection;
+	bool IsBarrelMoving();
 };
