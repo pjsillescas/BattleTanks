@@ -7,9 +7,10 @@
 
 void UTankMovementComponent::IntendMoveForward(float Throw)
 {
-	if (!ensure(LeftTrack && RightTrack)) return;
-	
+	if (!ensure(LeftTrack) || !ensure(RightTrack)) return;
+
 	Throw = FMath::Clamp<float>(Throw, -1, 1);
+
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
 }
@@ -21,8 +22,8 @@ void UTankMovementComponent::IntendTurnRight(float Throw)
 	auto Time = GetWorld()->GetTimeSeconds();
 	UE_LOG(LogTemp, Warning, TEXT("%f: %s Move right (%f)."), Time, *Name, Throw);
 	*/
-	if (!ensure(LeftTrack && RightTrack )) return;
-	
+	if (!ensure(LeftTrack) || !ensure(RightTrack)) return;
+
 	//Throw = FMath::Clamp<float>(Throw, -1, 1);
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(-Throw);
