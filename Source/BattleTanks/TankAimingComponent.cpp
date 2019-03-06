@@ -60,13 +60,18 @@ void UTankAimingComponent::AimAt(FVector WorldSpaceAim)
 	}
 }
 
+float GetShortAngle(float Angle)
+{
+	return ((FMath::Abs(Angle) > 180) ? -1 : 1) * Angle;
+}
+
 void UTankAimingComponent::MoveBarrelTowards(const FVector& AimDirection)
 {
 	// Work-out difference between current barrel rotation and AimmDirection
 	FRotator BarrelRotation = Barrel->GetForwardVector().Rotation();
 	FRotator AimAsRotator = AimDirection.Rotation();
 	FRotator DeltaRotator = AimAsRotator - BarrelRotation;
-	Barrel->Elevate(DeltaRotator.Pitch);
+	Barrel->Elevate(GetShortAngle(DeltaRotator.Pitch));
 
 }
 
@@ -76,7 +81,7 @@ void UTankAimingComponent::MoveTurretTowards(const FVector& AimDirection)
 	FRotator BarrelRotation = Turret->GetForwardVector().Rotation();
 	FRotator AimAsRotator = AimDirection.Rotation();
 	FRotator DeltaRotator = AimAsRotator - BarrelRotation;
-	Turret->Rotate(DeltaRotator.Yaw);
+	Turret->Rotate(GetShortAngle(DeltaRotator.Yaw));
 
 }
 
