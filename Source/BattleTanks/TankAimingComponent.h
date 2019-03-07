@@ -28,6 +28,8 @@ public:
 
 	virtual void BeginPlay() override;
 
+	EFiringStatus GetFiringStatus() const;
+
 	virtual void TickComponent(float DeltaTime,enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	void AimAt(FVector WorldSpaceAim);
