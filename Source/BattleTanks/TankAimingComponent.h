@@ -10,7 +10,7 @@
 UENUM()
 enum class EFiringStatus: uint8
 {
-	Locked,Aiming,Reloading
+	Locked,Aiming,Reloading,OutOfAmmo
 };
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -22,10 +22,14 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
-public:
+protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Firing")
 	float LaunchSpeed;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Firing")
+		float Ammo;
 
+public:
 	virtual void BeginPlay() override;
 
 	EFiringStatus GetFiringStatus() const;
@@ -56,6 +60,12 @@ public:
 	float ReloadTimeInSeconds;
 	double LastFireTime;
 
+	UFUNCTION(BlueprintCallable, BlueprintPure,Category = "Firing")
+	int GetAmmo();
+	
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	void AddAmmo(int NewAmmo);
+	
 private:
 	class UTankBarrel* Barrel;
 	class UTankTurret* Turret;

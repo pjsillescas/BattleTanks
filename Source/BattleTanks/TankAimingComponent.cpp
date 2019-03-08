@@ -106,16 +106,21 @@ void UTankAimingComponent::Fire()
 		if (!ensure(ProjectileBlueprint)) return;
 		if (!ensure(Barrel)) return;
 
-		// Spawn a projectile at the socket location on the barrel
-		FTransform Transform = Barrel->GetSocketTransform(FName("Projectile"));
-		FRotator Rotation = Transform.GetRotation().Rotator();
-		FVector Location = Transform.GetLocation() + Transform.GetRotation().GetForwardVector() * 500;
-		FActorSpawnParameters SpawnParameters;
-		AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Location, Rotation, SpawnParameters);
+		if (FiringStatus == EFiringStatus::Aiming || FiringStatus == EFiringStatus::Locked)
+		{
+			// Spawn a projectile at the socket location on the barrel
+			FTransform Transform = Barrel->GetSocketTransform(FName("Projectile"));
+			FRotator Rotation = Transform.GetRotation().Rotator();
+			FVector Location = Transform.GetLocation() + Transform.GetRotation().GetForwardVector() * 500;
+			FActorSpawnParameters SpawnParameters;
+			AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Location, Rotation, SpawnParameters);
+			
+			Ammo--;
 
-		Projectile->LaunchProjectile(LaunchSpeed);
+			Projectile->LaunchProjectile(LaunchSpeed);
 
-		LastFireTime = FPlatformTime::Seconds();
+			LastFireTime = FPlatformTime::Seconds();
+		}
 	}
 }
 
@@ -128,10 +133,23 @@ bool UTankAimingComponent::IsBarrelMoving()
 
 void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
-	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds)
+	if (Ammo <= 0)
+		FiringStatus = EFiringStatus::OutOfAmmo;
+	else if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds)
 		FiringStatus = EFiringStatus::Reloading;
 	else if (IsBarrelMoving())
 		FiringStatus = EFiringStatus::Aiming;
 	else
 		FiringStatus = EFiringStatus::Locked;
+
+}
+
+int UTankAimingComponent::GetAmmo()
+{
+	return Ammo;
+}
+
+void UTankAimingComponent::AddAmmo(int NewAmmo)
+{
+	Ammo += NewAmmo;
 }
