@@ -27,6 +27,12 @@ protected:
 	
 	UPROPERTY(VisibleAnywhere)
 	class UParticleSystemComponent* LaunchBlast;
+	
+	UPROPERTY(VisibleAnywhere)
+	class UParticleSystemComponent* ImpactBlast;
+
+	UFUNCTION()
+	void OnHit(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 public:	
 	// Called every frame
