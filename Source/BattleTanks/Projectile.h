@@ -19,8 +19,14 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	//UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(VisibleAnywhere)
 	class UProjectileMovementComponent* ProjectileMovementComponent;
+
+	UPROPERTY(VisibleAnywhere)
+	class UStaticMeshComponent* CollisionMesh;
+	
+	UPROPERTY(VisibleAnywhere)
+	class UParticleSystemComponent* LaunchBlast;
 
 public:	
 	// Called every frame
