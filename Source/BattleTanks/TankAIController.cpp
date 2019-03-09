@@ -42,7 +42,7 @@ void ATankAIController::Tick(float DeltaTime)
 	if (!ensure(ControlledTank && PlayerTank)) return;
 
 	// TODO Move towards the player
-	UE_LOG(LogTemp,Warning,TEXT("To player %f"),AcceptanceRadius);
+	//UE_LOG(LogTemp,Warning,TEXT("To player %f"),AcceptanceRadius);
 	MoveToActor(PlayerTank, AcceptanceRadius);
 
 	// Aim at player's location

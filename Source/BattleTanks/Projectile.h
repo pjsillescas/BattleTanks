@@ -36,6 +36,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Setup")
 	float DestroyDelay;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	float ProjectileDamage;
 	
 	UFUNCTION()
 	void OnHit(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
