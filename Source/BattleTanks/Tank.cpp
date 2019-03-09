@@ -37,7 +37,10 @@ float ATank::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEve
 	UE_LOG(LogTemp,Warning,TEXT("Taking damage %i from %i, total health %i"), DamagePoints,Health,Health - DamagePoints);
 
 	if (Health <= 0)
+	{
+		OnDeath.Broadcast();
 		Destroy();
+	}
 
 	return DamageToApply;
 }

@@ -24,4 +24,8 @@ protected:
 private:
 	class ATank* GetPlayerTank() const;
 
+	virtual void SetPawn(class APawn* InPawn) override;
+
+	UFUNCTION()
+	void OnTankDeath();
 };

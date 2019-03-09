@@ -40,5 +40,10 @@ public:
 	// Start the tank moving the barrel so that a shot would hit where
 	// the crosshair intersects the world
 	virtual void Tick(float DeltaTime) override;
+	
+	virtual void SetPawn(class APawn* InPawn) override;
+
+	UFUNCTION()
+	void OnTankDeath();
 
 };
