@@ -34,9 +34,14 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	class URadialForceComponent* ExplosionForce;
 
+	UPROPERTY(EditAnywhere, Category = "Setup")
+	float DestroyDelay;
+	
 	UFUNCTION()
 	void OnHit(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
+	UFUNCTION()
+	void DestroyActor();
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
