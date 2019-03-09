@@ -11,14 +11,14 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 	
 	StartingHealth = 100;
-	Health = StartingHealth;
 }
 
 // Called when the game starts or when spawned
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	Health = StartingHealth;
+
 }
 
 // Called to bind functionality to input
@@ -38,8 +38,8 @@ float ATank::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEve
 
 	if (Health <= 0)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("%s: dead ahead!!"), *GetName());
 		OnDeath.Broadcast();
-		Destroy();
 	}
 
 	return DamageToApply;

@@ -104,4 +104,5 @@ void ATankPlayerController::SetPawn(class APawn* InPawn)
 void ATankPlayerController::OnTankDeath()
 {
 	UE_LOG(LogTemp, Warning, TEXT("On death called (Player controller)!!"));
+	StartSpectatingOnly();
 }

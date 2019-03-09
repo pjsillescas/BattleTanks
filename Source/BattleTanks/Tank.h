@@ -27,7 +27,8 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	int32 StartingHealth;
-	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="Setup")
 	int32 Health;
 public:	
 	// Called to bind functionality to input
