@@ -24,9 +24,16 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	class UPhysicsConstraintComponent* PhysicsConstraint;
 
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	class UStaticMeshComponent* Axle;
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	class UPhysicsConstraintComponent* AxleWheelConstraint;
+
+
 	void SetupConstraint();
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void AddDrivingForce(float ForceMagnitude);
 };

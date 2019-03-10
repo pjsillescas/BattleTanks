@@ -15,15 +15,11 @@ class BATTLETANKS_API UTankTrack : public UStaticMeshComponent
 	GENERATED_BODY()
 	
 private:
-	UFUNCTION()
-	void OnHit(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
-	
-	void ApplySidewaysForce(float DeltaTime);
-
-	float CurrentThrottle = 0;
-	void DriveTrack();
+	void DriveTrack(float CurrentThrottle);
 public:
 	UTankTrack();
+
+	TArray<class ASprungWheel*> GetWheels() const;
 
 	virtual void BeginPlay() override;
 

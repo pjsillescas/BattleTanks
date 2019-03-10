@@ -13,12 +13,17 @@ ASprungWheel::ASprungWheel()
 	Wheel = CreateDefaultSubobject<UStaticMeshComponent>(FName("Wheel"));
 	PhysicsConstraint = CreateDefaultSubobject<UPhysicsConstraintComponent>(FName("PhysicsConstraint"));
 
-
 	SetRootComponent(PhysicsConstraint);
-	Wheel->SetupAttachment(RootComponent);
 
+	Axle = CreateDefaultSubobject<UStaticMeshComponent>(FName("Axle"));
+	AxleWheelConstraint = CreateDefaultSubobject<UPhysicsConstraintComponent>(FName("AxleWheelConstraint"));
+
+	Wheel->SetupAttachment(Axle);
 	Wheel->SetSimulatePhysics(true);
 	Wheel->SetMassOverrideInKg(NAME_None, 100);
+	
+	Axle->SetupAttachment(PhysicsConstraint);
+	AxleWheelConstraint->SetupAttachment(Axle);
 }
 
 // Called when the game starts or when spawned
@@ -34,7 +39,8 @@ void ASprungWheel::SetupConstraint()
 	if (!GetAttachParentActor()) return;
 	UPrimitiveComponent* BodyRoot = Cast<UPrimitiveComponent>(GetAttachParentActor()->GetRootComponent());
 	if (!BodyRoot) return;
-	PhysicsConstraint->SetConstrainedComponents(BodyRoot, NAME_None, Wheel, NAME_None);
+	PhysicsConstraint->SetConstrainedComponents(BodyRoot, NAME_None, Axle, NAME_None);
+	AxleWheelConstraint->SetConstrainedComponents(Axle, NAME_None, Wheel, NAME_None);
 }
 
 // Called every frame
@@ -44,3 +50,7 @@ void ASprungWheel::Tick(float DeltaTime)
 
 }
 
+void ASprungWheel::AddDrivingForce(float ForceMagnitude)
+{
+	Wheel->AddForce(Axle->GetForwardVector() * ForceMagnitude);
+}
