@@ -29,8 +29,14 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	class UPhysicsConstraintComponent* AxleWheelConstraint;
 
+	UFUNCTION()
+	void OnHit(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+	
+	void ApplyForce();
 
 	void SetupConstraint();
+
+	float TotalForceMagnitude = 0;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
