@@ -87,6 +87,7 @@ void UTankAimingComponent::MoveTurretTowards(const FVector& AimDirection)
 
 void UTankAimingComponent::BeginPlay()
 {
+	Super::BeginPlay();
 	LastFireTime = FPlatformTime::Seconds();
 }
 
